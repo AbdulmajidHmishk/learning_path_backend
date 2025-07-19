@@ -1,0 +1,17 @@
+[
+  {
+    "id": "t1",
+    "name": "Python Grundlagen",
+    "description": "Lerne die Grundlagen von Python."
+  },
+  {
+    "id": "t2",
+    "name": "OOP in Python",
+    "description": "Verstehe objektorientierte Programmierung mit Python."
+  },
+  {
+    "id": "t3",
+    "name": "Webentwicklung mit Flask",
+    "description": "Erstelle Web-APIs mit Flask."
+  }
+]

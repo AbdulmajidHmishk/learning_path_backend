@@ -92,5 +92,24 @@ def update_topic(id):
     return jsonify({"error": "Topic not found"}), 404
 
 
+@app.route('/topics/<id>', methods=['DELETE'])
+def delete_topic(id):
+    data_file = os.path.join(os.path.dirname(__file__), 'data', 'topics.json')
+    topics = data_manager.read_data(data_file)
+
+    topic_exists = False
+    for topic in topics:
+        if topic.get("id") == id:
+            topic_exists = True
+            topics.remove(topic)
+            break
+
+    if not topic_exists:
+        return jsonify({"error": "Topic not found"}), 404
+
+    data_manager.write_data(data_file, topics)
+    return '', 204
+
+
 if __name__ == '__main__':
     app.run(debug=True) 

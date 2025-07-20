@@ -2,22 +2,17 @@ import json
 import os 
 
 class JsonDataManager:
-    def read_data(self, filepath) :
-        try :
-            if not os.path.exists(filepath):
-                print (f"Datei nicht gefunden : {filepath}")
-                return []
-            with open (filepath, 'r' , encoding='utf-8' ) as f:
-                return json.load(f)
-        except  json.JSONDecodeError:
-            print (f"ungultiges JSON in Datei: {filepath}")
+    def read_data(self, file_path):
+        if not os.path.exists(file_path):
+            print(f"Datei nicht gefunden: {file_path}")
             return []
-        except Exception as e: 
-            print (f"fehler beim Lesen der Datei: {e}")
-            return []
-    def write_date(self, filepath,data):
         try:
-            with open(filepath, 'w', encoding='utf-8') as f :
-                 json.dump(filepath,f , indent=4 , ensure_ascii= False  )
-        except Exception as e:
-            print (f"Fehler beim Schreiben der Datei: {e} ")        
+            with open(file_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            print(f"JSON Fehler: {e}")
+            return []
+    
+    def write_data(self, file_path, data):
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, indent=2)

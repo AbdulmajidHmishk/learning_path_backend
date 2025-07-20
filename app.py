@@ -71,5 +71,26 @@ def create_topic():
     return jsonify(new_topic), 201
 
 
+@app.route('/topics/<id>', methods=['PUT'])
+def update_topic(id):
+    data = request.get_json()
+
+    if not data or 'name' not in data or 'description' not in data:
+        return jsonify({"error": "name and description are required"}), 400
+
+    data_file = os.path.join(os.path.dirname(__file__), 'data', 'topics.json')
+    topics = data_manager.read_data(data_file)
+
+    for topic in topics:
+        if topic.get("id") == id:
+            topic["name"] = data["name"]
+            topic["description"] = data["description"]
+
+            data_manager.write_data(data_file, topics)
+            return jsonify(topic), 200
+
+    return jsonify({"error": "Topic not found"}), 404
+
+
 if __name__ == '__main__':
     app.run(debug=True) 

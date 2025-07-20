@@ -1,4 +1,10 @@
 [
-  {"id": "s1", "name": "Python Basics"},
-  {"id": "s2", "name": "REST APIs"}
+  {
+    "id": "s1",
+    "name": "Edited by ticket 15"
+  },
+  {
+    "id": "s2",
+    "name": "REST APIs"
+  }
 ]

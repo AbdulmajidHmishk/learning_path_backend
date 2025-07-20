@@ -1,10 +1,10 @@
 
 
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from data_manager import JsonDataManager
 import os
-
+import uuid 
 app = Flask(__name__)
 data_manager = JsonDataManager()
 
@@ -47,6 +47,29 @@ def get_skill_by_id(id):
 @app.route('/')
 def hello():
     return "Hello from Topic & Skill Service!"
+
+
+@app.route('/topics', methods=['POST'])
+def create_topic():
+    data = request.get_json()
+
+    if not data or 'name' not in data or 'description' not in data:
+        return jsonify({"error": "name and description are required"}), 400
+
+    new_topic = {
+        "id": str(uuid.uuid4()),
+        "name": data["name"],
+        "description": data["description"]
+    }
+
+    data_file = os.path.join(os.path.dirname(__file__), 'data', 'topics.json')
+    topics = data_manager.read_data(data_file)
+
+    topics.append(new_topic)
+    data_manager.write_data(data_file, topics)
+
+    return jsonify(new_topic), 201
+
 
 if __name__ == '__main__':
     app.run(debug=True) 

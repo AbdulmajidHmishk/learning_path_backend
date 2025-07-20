@@ -127,6 +127,25 @@ def update_skill(id):
     
     return jsonify({"error": "Skill not found"}), 404
 
+@app.route('/skills/<id>', methods=['DELETE'])
+def delete_skill(id):
+    data_file = os.path.join(os.path.dirname(__file__), 'data', 'skills.json')
+    skills = data_manager.read_data(data_file)
+    
+    skill_exists = False
+    new_skills = []
+    for skill in skills:
+        if skill.get("id") == id:
+            skill_exists = True
+        else:
+            new_skills.append(skill)
+    
+    if not skill_exists:
+        return jsonify({"error": "Skill not found"}), 404
+    
+    data_manager.write_data(data_file, new_skills)
+    return '', 204
+
 
 if __name__ == '__main__':
     app.run(debug=True) 
